@@ -1,12 +1,11 @@
-FROM node:latest
-
-WORKDIR /usr/src/app
-
-COPY package*.json ./
-
-RUN npm install
-
-COPY . .
-
+FROM alpine:3.8
+RUN mkdir /var/node/
+WORKDIR /var/node/
+COPY ./app.js ./
+RUN apk update
+RUN apk add nodejs npm
+RUN npm init -y
+RUN npm install express
 EXPOSE 3000
-CMD [ "node", "index.js" ]
+ENTRYPOINT [ "node" ]
+CMD [ "app.js" ]
